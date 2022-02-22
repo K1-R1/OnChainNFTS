@@ -3,7 +3,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "base64-sol/Base64.sol";
+import "base64-sol/base64.sol";
 
 contract SVGNFT is ERC721URIStorage {
     uint256 public tokenCounter;
