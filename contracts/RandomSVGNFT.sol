@@ -19,6 +19,7 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
         uint256 indexed tokenId,
         uint256 randomNumber
     );
+    event CreatedRandomSVGNFT(uint256 indexed tokenId, string tokenURI);
 
     constructor(
         address _VRFCoordinator,
@@ -64,5 +65,11 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
             tokenIdToRandomNumber[_tokenId] > 0,
             "Random number not yet recieved from VRF"
         );
+        uint256 randomNumber = tokenIdToRandomNumber[_tokenId];
+        string memory svg = generateSVG(randomNumber);
+        string memory imageURI = svgToImageURI(svg);
+        string memory tokenURI = formatTokenURI(imageURI);
+        _setTokenURI(_tokenId, tokenURI);
+        emit CreatedRandomSVGNFT(_tokenId, tokenURI);
     }
 }
