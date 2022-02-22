@@ -10,6 +10,14 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
     uint256 public fee;
     uint256 public tokenCounter;
 
+    // SVG parameters
+    uint256 public maxPaths;
+    uint256 public maxPathCommands;
+    uint256 public size;
+
+    string[] public pathCommands;
+    string[] public colours;
+
     mapping(bytes32 => address) public requestIdToSender;
     mapping(bytes32 => uint256) public requestIdToTokenId;
     mapping(uint256 => uint256) public tokenIdToRandomNumber;
@@ -33,6 +41,20 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
         keyHash = _keyhash;
         fee = _fee;
         tokenCounter = 0;
+        maxPaths = 10;
+        maxPathCommands = 5;
+        size = 500;
+        pathCommands = ["M", "L"];
+        colours = [
+            "black",
+            "white",
+            "blue",
+            "red",
+            "green",
+            "yellow",
+            "purple",
+            "orange"
+        ];
     }
 
     function create() public returns (bytes32 requestId) {
@@ -71,5 +93,28 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
         string memory tokenURI = formatTokenURI(imageURI);
         _setTokenURI(_tokenId, tokenURI);
         emit CreatedRandomSVGNFT(_tokenId, tokenURI);
+    }
+
+    function generateSVG(uint256 _randomNumber)
+        public
+        view
+        returns (string memory finalSVG)
+    {
+        uint256 numberOfPaths = (_randomNumber % maxPaths) + 2;
+        finalSVG = string(
+            abi.encodePacked(
+                "<svg xmlns='http://www.w3.org/2000/svg' height='",
+                uint2str(size),
+                "' width='",
+                uint2str(size),
+                "'>"
+            )
+        );
+        for (uint256 i = 0; i < numberOfPaths; i++) {
+            uint256 newRNG = uint256(keccak256(abi.encode(_randomNumber, i)));
+            string memory pathSVG = generatePath(newRNG);
+            finalSVG = string(abi.encodePacked(finalSVG, pathSVG));
+        }
+        finalSVG = string(abi.encodePacked(finalSVG, "</svg>"));
     }
 }
