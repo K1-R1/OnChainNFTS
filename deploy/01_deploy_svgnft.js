@@ -29,4 +29,8 @@ module.exports = async ({
 
     const networkName = networkConfig[chainId]['name']
     log(`Verify with:\nnpx hardhat verify --network ${networkName} ${svgNFT.address}`)
+
+    let tx = await svgNFT.create(svg)
+    let receipt = await tx.wait(1)
+    log(`NFT created\ntokenURI available at ${await svgNFT.tokenURI(0)}`)
 }
