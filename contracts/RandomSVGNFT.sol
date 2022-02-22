@@ -54,5 +54,15 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
         emit CreatedUnfinishedRandomSVG(tokenId, _randomNumber);
     }
 
-    function finishMint() public {}
+    function finishMint(uint256 _tokenId) public {
+        require(
+            bytes(tokenURI(_tokenId)).length == 0,
+            "tokenURI is already set"
+        );
+        require(tokenCounter > _tokenId, "tokenId has not yet been minted");
+        require(
+            tokenIdToRandomNumber[_tokenId] > 0,
+            "Random number not yet recieved from VRF"
+        );
+    }
 }
