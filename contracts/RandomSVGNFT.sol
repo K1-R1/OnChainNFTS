@@ -12,8 +12,13 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
 
     mapping(bytes32 => address) public requestIdToSender;
     mapping(bytes32 => uint256) public requestIdToTokenId;
+    mapping(uint256 => uint256) public tokenIdToRandomNumber;
 
     event RequestedRandomSVG(bytes32 indexed requestId, uint256 tokenId);
+    event CreatedUnfinishedRandomSVG(
+        uint256 indexed tokenId,
+        uint256 randomNumber
+    );
 
     constructor(
         address _VRFCoordinator,
@@ -38,11 +43,15 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
         emit RequestedRandomSVG(requestId, tokenId);
     }
 
-    function fulfillRandomness(bytes32 _requestId, uint256 _randomness)
+    function fulfillRandomness(bytes32 _requestId, uint256 _randomNumber)
         internal
         override
     {
-        randomResult = _randomness;
+        address nftOwner = requestIdToSender[_requestId];
+        uint256 tokenId = requestIdToTokenId[_requestId];
+        _safeMint(nftOwner, tokenId);
+        tokenIdToRandomNumber[tokenId] = _randomNumber;
+        emit CreatedUnfinishedRandomSVG(tokenId, _randomNumber);
     }
 
     function finishMint() public {}
