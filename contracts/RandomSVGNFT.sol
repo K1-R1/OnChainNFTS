@@ -143,4 +143,31 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
         }
         return string(bstr);
     }
+
+    function generatePath(uint256 _randomNumber)
+        public
+        view
+        returns (string memory pathSVG)
+    {
+        uint256 numberOfPathCommands = (_randomNumber % maxPathCommands) + 1;
+        pathSVG = "<path d='";
+        for (uint256 i = 0; i < numberOfPathCommands; i++) {
+            uint256 newRNG = uint256(
+                keccak256(abi.encode(_randomNumber, size + i))
+            );
+            string memory pathCommand = generatePathCommand(newRNG);
+            pathSVG = string(abi.encodePacked(pathSVG, pathCommand));
+        }
+        string memory colour = colours[_randomNumber % colours.length];
+        pathSVG = string(
+            abi.encodePacked(
+                pathSVG,
+                "' fill='",
+                colour,
+                "' stroke='",
+                colour,
+                "'/>"
+            )
+        );
+    }
 }
