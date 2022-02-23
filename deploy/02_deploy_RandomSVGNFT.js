@@ -1,3 +1,5 @@
+let { networkConfig } = require('../helper-hardhat-config')
+
 module.exports = async ({
     getNamedAccounts,
     deployments,
@@ -14,6 +16,7 @@ module.exports = async ({
         let vrfCoordinatorMock = await get('VRFCoordinatorMock')
         vrfCoordinatorAddress = vrfCoordinatorMock.address
     } else {
-
+        linkTokenAddress = networkConfig[chainId]['linkToken']
+        vrfCoordinatorAddress = networkConfig[chainId]['vrfCoordinator']
     }
 }
