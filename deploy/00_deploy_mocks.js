@@ -6,4 +6,16 @@ module.exports = async ({
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
     const chainId = await getChainId()
+
+    if (chainId == 31337) {
+        const LinkToken = await deploy('LinkToken', { from: deployer, log: true })
+        const VRFCoordinatorMock = await deploy('VRFCoordinatorMock', {
+            from: deployer,
+            log: true,
+            args: [LinkToken.address]
+        })
+        log(`\nMocks deployed\n`)
+    }
 }
+
+module.exports.tags = ['all', 'rsvg', 'svg']
