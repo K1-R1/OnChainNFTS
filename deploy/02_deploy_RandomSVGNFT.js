@@ -19,4 +19,7 @@ module.exports = async ({
         linkTokenAddress = networkConfig[chainId]['linkToken']
         vrfCoordinatorAddress = networkConfig[chainId]['vrfCoordinator']
     }
+
+    const keyHash = networkConfig[chainId]['keyHash']
+    const fee = networkConfig[chainId]['fee']
 }
