@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
+import "base64-sol/base64.sol";
 
 contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
     bytes32 public keyHash;
@@ -192,5 +193,20 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
                 uint2str(parameterTwo)
             )
         );
+    }
+
+    function svgToImageURI(string memory _svg)
+        public
+        pure
+        returns (string memory)
+    {
+        string memory baseURL = "data:image/svg+xml;base64,";
+        string memory svgBase64Encoded = Base64.encode(
+            bytes(string(abi.encodePacked(_svg)))
+        );
+        string memory imageURI = string(
+            abi.encodePacked(baseURL, svgBase64Encoded)
+        );
+        return imageURI;
     }
 }
