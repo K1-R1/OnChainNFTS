@@ -209,4 +209,28 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
         );
         return imageURI;
     }
+
+    function formatTokenURI(string memory _imageURI)
+        public
+        pure
+        returns (string memory)
+    {
+        return
+            string(
+                abi.encodePacked(
+                    "data:application/json;base64,",
+                    Base64.encode(
+                        bytes(
+                            abi.encodePacked(
+                                '{"name":"',
+                                "SVG NFT",
+                                '", "description":"An NFT based on SVG", "attributes":"", "image":"',
+                                _imageURI,
+                                '"}'
+                            )
+                        )
+                    )
+                )
+            );
+    }
 }
