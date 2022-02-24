@@ -48,7 +48,7 @@ module.exports = async ({
     tx = await randomSVGNFT.create({ gasLimit: 300000 })
     let receipt = await tx.wait(1)
     let tokenId = receipt.events[3].topics[2]
-    log(`NFT minted with ID: ${tokenId.toString()}`)
+    log(`NFT minted with ID: ${tokenId}`)
     if (chainId != 31337) {
         await new Promise(r => setTimeout(r, 180000))
         tx = await randomSVGNFT.finishMint(tokenId, { gasLimit: 2000000 })
