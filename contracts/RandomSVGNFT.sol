@@ -51,7 +51,6 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
         pathCommands = ["M", "L"];
         colours = [
             "black",
-            "white",
             "blue",
             "red",
             "green",
