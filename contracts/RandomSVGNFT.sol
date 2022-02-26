@@ -93,9 +93,9 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
         uint256 randomNumber = tokenIdToRandomNumber[_tokenId];
         string memory svg = generateSVG(randomNumber);
         string memory imageURI = svgToImageURI(svg);
-        string memory tokenURI = formatTokenURI(imageURI);
-        _setTokenURI(_tokenId, tokenURI);
-        emit CreatedRandomSVGNFT(_tokenId, tokenURI);
+        string memory _tokenURI = formatTokenURI(imageURI);
+        _setTokenURI(_tokenId, _tokenURI);
+        emit CreatedRandomSVGNFT(_tokenId, _tokenURI);
     }
 
     function generateSVG(uint256 _randomNumber)
