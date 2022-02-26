@@ -63,7 +63,7 @@ module.exports = async ({
         await transactionResponse.wait(1)
         tx = await randomSVGNFT.finishMint(tokenId, { gasLimit: 2000000 })
         await tx.wait(1)
-        log(`You can view the tokenURI at: ${await randomSVGNFT.tokenURI(0)}`)
+        log(`You can view the tokenURI at: ${await randomSVGNFT.tokenURI(tokenId)}`)
     }
 }
 
