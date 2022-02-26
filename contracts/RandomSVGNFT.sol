@@ -180,12 +180,11 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
         );
     }
 
-    function generatePathCommand(uint256 _randomNumber)
+    function generatePathCommand(uint256 _randomNumber, string memory _command)
         public
         view
         returns (string memory pathCommand)
     {
-        pathCommand = pathCommands[_randomNumber % pathCommands.length];
         uint256 parameterOne = uint256(
             keccak256(abi.encode(_randomNumber, size * 2))
         ) % size;
@@ -194,11 +193,11 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
         ) % size;
         pathCommand = string(
             abi.encodePacked(
-                pathCommand,
-                " ",
+                _command,
                 uint2str(parameterOne),
                 " ",
-                uint2str(parameterTwo)
+                uint2str(parameterTwo),
+                " "
             )
         );
     }
