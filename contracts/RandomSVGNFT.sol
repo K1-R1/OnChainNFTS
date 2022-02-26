@@ -23,7 +23,10 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
     mapping(bytes32 => uint256) public requestIdToTokenId;
     mapping(uint256 => uint256) public tokenIdToRandomNumber;
 
-    event RequestedRandomSVG(bytes32 indexed requestId, uint256 tokenId);
+    event RequestedRandomSVG(
+        bytes32 indexed requestId,
+        uint256 indexed tokenId
+    );
     event CreatedUnfinishedRandomSVG(
         uint256 indexed tokenId,
         uint256 randomNumber
