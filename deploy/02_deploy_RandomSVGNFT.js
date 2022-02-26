@@ -45,15 +45,17 @@ module.exports = async ({
     const linkToken = new ethers.Contract(linkTokenAddress, linkTokenContract.interface, signer)
     let fund_tx = await linkToken.transfer(RandomSVGNFT.address, fee)
     await fund_tx.wait(1)
+
+    //Mint NFT
     tx = await randomSVGNFT.create({ gasLimit: 300000 })
     let receipt = await tx.wait(1)
     let tokenId = receipt.events[3].topics[2]
     log(`NFT minted with ID: ${tokenId}`)
     if (chainId != 31337) {
         await new Promise(r => setTimeout(r, 180000))
-        tx = await randomSVGNFT.finishMint(tokenId, { gasLimit: 2000000 })
+        tx = await randomSVGNFT.finishMint(tokenId, { gasLimit: 5000000 })
         await tx.wait(1)
-        log(`You can view the tokenURI at: ${await randomSVGNFT.tokenURI(0)}`)
+        log(`You can view the tokenURI at: ${await randomSVGNFT.tokenURI(tokenId)}`)
     } else {
         const VRFCoordinatorMock = await deployments.get('VRFCoordinatorMock')
         vrfCoordinator = await ethers.getContractAt('VRFCoordinatorMock', VRFCoordinatorMock.address, signer)
