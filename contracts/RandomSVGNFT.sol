@@ -44,8 +44,10 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
         VRFConsumerBase(_VRFCoordinator, _LinkToken)
         ERC721("RandomSVGNFT", "rsNFT")
     {
+        owner = payable(msg.sender);
         keyHash = _keyhash;
         fee = _fee;
+        mintPrice = 0.1 * (10**18);
         tokenCounter = 0;
         maxPaths = 10;
         maxPathCommands = 5;
