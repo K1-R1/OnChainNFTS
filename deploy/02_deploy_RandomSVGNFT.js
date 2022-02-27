@@ -47,22 +47,23 @@ module.exports = async ({
     await fund_tx.wait(1)
 
     //Mint NFT
-    tx = await randomSVGNFT.create({ gasLimit: 300000 })
-    let receipt = await tx.wait(1)
+    let mintValue = '100000000000000000'
+    create_tx = await randomSVGNFT.create({ gasLimit: 300000, value: mintValue })
+    let receipt = await create_tx.wait(1)
     let tokenId = receipt.events[3].topics[2]
     log(`NFT minted with ID: ${tokenId}`)
     if (chainId != 31337) {
         await new Promise(r => setTimeout(r, 180000))
-        tx = await randomSVGNFT.finishMint(tokenId, { gasLimit: 5000000 })
-        await tx.wait(1)
+        finish_tx = await randomSVGNFT.finishMint(tokenId, { gasLimit: 4000000 })
+        await finish_tx.wait(1)
         log(`You can view the tokenURI at: ${await randomSVGNFT.tokenURI(tokenId)}`)
     } else {
         const VRFCoordinatorMock = await deployments.get('VRFCoordinatorMock')
         vrfCoordinator = await ethers.getContractAt('VRFCoordinatorMock', VRFCoordinatorMock.address, signer)
         let transactionResponse = await vrfCoordinator.callBackWithRandomness(receipt.logs[3].topics[1], 77777, randomSVGNFT.address)
         await transactionResponse.wait(1)
-        tx = await randomSVGNFT.finishMint(tokenId, { gasLimit: 2000000 })
-        await tx.wait(1)
+        finish_tx = await randomSVGNFT.finishMint(tokenId, { gasLimit: 4000000 })
+        await finish_tx.wait(1)
         log(`You can view the tokenURI at: ${await randomSVGNFT.tokenURI(tokenId)}`)
     }
 }
