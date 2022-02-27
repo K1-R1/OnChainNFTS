@@ -1,16 +1,36 @@
-# Basic Sample Hardhat Project
+#  OnChainNFTS
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+<br/>
+<p align="center">
+<img src="./img/exampleOS.png" width="500">
+</p>
+<br/>
 
-Try running some of the following tasks:
+<p align="center">
+<img src="./img/exampleSVG1.png" width="250">
+<img src="./img/exampleSVG2.png" width="250">
+</p>
+<p align="center">
+<img src="./img/exampleSVG3.png" width="250">
+<img src="./img/exampleSVG4.png" width="250">
+</p>
+<p align="center">
+<img src="./img/exampleSVG5.png" width="250">
+</p>
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
-# OnChainNFTS
+### This repo contains a smart contract project, in which NFTs are created that have all metadata on-chain and are created with verifiably random SVG paths:
+- In the first contract `SVGNFT`; a simple SVG is used to create NFTs with all their metadata on chain
+- In the second contract `RandomSVGNFT`; chainlink's VRF is used to create randomly generated SVGs, that are the images for NFTs with all their metadata on chain
+
+The project is made with the hardhat framework, utilising javascript to deploy and test
+
+### Deployment
+- The contracts are deployed to the Rinkeby test network
+
+### Made with
+- Solidity
+- Hardhat
+- Javascript
+
+### This repo is inspired by;
+- [PatrickAlphaC/all-on-chain-generated-nft](https://github.com/PatrickAlphaC/all-on-chain-generated-nft)
