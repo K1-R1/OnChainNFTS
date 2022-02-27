@@ -64,7 +64,13 @@ contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
         ];
     }
 
-    function create() public returns (bytes32 requestId) {
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only onwer can withadraw");
+        _;
+    }
+
+    function create() public payable returns (bytes32 requestId) {
+        require(msg.value >= mintPrice, "Mint price is: 0.1 ETH");
         requestId = requestRandomness(keyHash, fee);
         requestIdToSender[requestId] = msg.sender;
         uint256 tokenId = tokenCounter;
