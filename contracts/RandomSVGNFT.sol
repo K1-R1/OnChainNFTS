@@ -7,9 +7,11 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import "base64-sol/base64.sol";
 
 contract RandomSVGNFT is ERC721URIStorage, VRFConsumerBase {
+    address payable public owner;
     bytes32 public keyHash;
     uint256 public fee;
     uint256 public tokenCounter;
+    uint256 public mintPrice;
 
     // SVG parameters
     uint256 public maxPaths;
